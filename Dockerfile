@@ -22,4 +22,4 @@ RUN npm ci --omit=dev \
 COPY --from=build /app/dist ./dist
 EXPOSE 3000
 USER node
-CMD ["sh", "-c", "node scripts/validate-runtime-env.mjs && npx prisma migrate deploy && node dist/main.js"]
+CMD ["sh", "-c", "node scripts/validate-runtime-env.mjs && npx prisma migrate deploy && node dist/src/main.js"]
