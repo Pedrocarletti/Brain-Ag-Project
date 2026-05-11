@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 import { validateEnv } from './config/env.validation';
 import { PrismaModule } from './database/prisma.module';
+import { HealthController } from './health.controller';
 import { CropsModule } from './modules/crops/crops.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { FarmsModule } from './modules/farms/farms.module';
@@ -40,5 +41,6 @@ import { ProducersModule } from './modules/producers/producers.module';
     PlantedCropsModule,
     DashboardModule,
   ],
+  controllers: [HealthController],
 })
 export class AppModule {}
