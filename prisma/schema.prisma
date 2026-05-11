@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum DocumentType {
+  CPF
+  CNPJ
+}
+
+model Producer {
+  id           String       @id @default(uuid())
+  document     String       @unique
+  documentType DocumentType
+  name         String
+  farms        Farm[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@map("producers")
+}
+
+model Farm {
+  id               String        @id @default(uuid())
+  producerId       String
+  farmName         String
+  city             String
+  state            String
+  totalArea        Decimal       @db.Decimal(12, 2)
+  agriculturalArea Decimal       @db.Decimal(12, 2)
+  vegetationArea   Decimal       @db.Decimal(12, 2)
+  producer         Producer      @relation(fields: [producerId], references: [id], onDelete: Cascade)
+  plantedCrops     PlantedCrop[]
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([producerId])
+  @@map("farms")
+}
+
+model Harvest {
+  id           String        @id @default(uuid())
+  name         String        @unique
+  year         Int           @unique
+  plantedCrops PlantedCrop[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("harvests")
+}
+
+model Crop {
+  id           String        @id @default(uuid())
+  name         String        @unique
+  plantedCrops PlantedCrop[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("crops")
+}
+
+model PlantedCrop {
+  id        String   @id @default(uuid())
+  farmId    String
+  cropId    String
+  harvestId String
+  farm      Farm     @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  crop      Crop     @relation(fields: [cropId], references: [id], onDelete: Cascade)
+  harvest   Harvest  @relation(fields: [harvestId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([farmId, cropId, harvestId])
+  @@index([farmId])
+  @@index([cropId])
+  @@index([harvestId])
+  @@map("planted_crops")
+}
