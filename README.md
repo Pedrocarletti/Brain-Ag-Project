@@ -271,6 +271,16 @@ docker pull ghcr.io/pedrocarletti/brain-ag-project-api:latest
 
 Para fazer deploy automático em Render, Railway, Fly.io, AWS, Azure ou outro provedor, configure os secrets da plataforma no GitHub e adicione um job de deploy após o job `publish-api-image`.
 
+### Variáveis obrigatórias no deploy
+
+Ao iniciar a imagem Docker publicada, a plataforma precisa ter a variável abaixo configurada:
+
+```env
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DATABASE?schema=public
+```
+
+Sem `DATABASE_URL`, o container encerra antes de executar `prisma migrate deploy`.
+
 ## Possíveis melhorias futuras
 
 - Autenticação e autorização.

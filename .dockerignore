@@ -6,5 +6,7 @@ coverage
 .git
 .env
 .env.test
+.env.example
+.env.test.example
 *.log
 *.tsbuildinfo
