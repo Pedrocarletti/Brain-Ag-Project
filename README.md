@@ -250,10 +250,31 @@ Os testes e2e usam `.env.test`, executam `prisma migrate deploy` automaticamente
 
 O bootstrap dos testes e2e usa a mesma configuração global da aplicação real: pipes, filtro global de erros, serializer e logger.
 
+## CI/CD
+
+O repositório possui GitHub Actions em `.github/workflows`.
+
+- `CI`: executa instalação, Prisma generate/validate, lint, build backend, build frontend, testes unitários, testes e2e com PostgreSQL e auditoria de dependências.
+- `CD`: em push para `main`, publica a imagem Docker da API no GitHub Container Registry.
+
+Imagem publicada:
+
+```txt
+ghcr.io/pedrocarletti/brain-ag-project-api:latest
+```
+
+Para baixar a imagem:
+
+```bash
+docker pull ghcr.io/pedrocarletti/brain-ag-project-api:latest
+```
+
+Para fazer deploy automático em Render, Railway, Fly.io, AWS, Azure ou outro provedor, configure os secrets da plataforma no GitHub e adicione um job de deploy após o job `publish-api-image`.
+
 ## Possíveis melhorias futuras
 
 - Autenticação e autorização.
 - Auditoria de alterações.
 - Métricas Prometheus.
 - Testcontainers para banco isolado nos testes e2e.
-- CI com lint, build, testes unitários e e2e.
+- Deploy automático para uma plataforma cloud com secrets do provedor.
