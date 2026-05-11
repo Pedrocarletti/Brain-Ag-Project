@@ -1,4 +1,8 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? '/api';
+const DEFAULT_PRODUCTION_API_URL = 'https://brain-ag-project-production.up.railway.app';
+
+const configuredApiUrl = import.meta.env.VITE_API_URL?.trim();
+const API_BASE_URL = (configuredApiUrl || (import.meta.env.PROD ? DEFAULT_PRODUCTION_API_URL : '/api')).replace(/\/$/, '');
+export const API_DOCS_URL = `${API_BASE_URL}/docs`;
 
 export interface PaginatedResponse<T> {
   data: T[];

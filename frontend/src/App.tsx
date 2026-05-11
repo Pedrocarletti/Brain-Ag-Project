@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AlertCircle, Database, ExternalLink, LayoutDashboard } from 'lucide-react';
-import { api, Crop, DashboardData, Farm, Harvest, PlantedCrop, Producer } from './api';
+import { api, API_DOCS_URL, Crop, DashboardData, Farm, Harvest, PlantedCrop, Producer } from './api';
 import { CrudPanel } from './components/CrudPanel';
 import { Dashboard } from './components/Dashboard';
 import { FieldConfig } from './types';
@@ -112,7 +112,7 @@ export function App() {
             </button>
           ))}
         </nav>
-        <a className="swaggerLink" href="http://localhost:3000/docs" target="_blank" rel="noreferrer">
+        <a className="swaggerLink" href={API_DOCS_URL} target="_blank" rel="noreferrer">
           Swagger <ExternalLink size={15} />
         </a>
       </aside>
