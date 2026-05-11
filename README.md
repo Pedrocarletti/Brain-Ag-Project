@@ -271,6 +271,35 @@ docker pull ghcr.io/pedrocarletti/brain-ag-project-api:latest
 
 Para fazer deploy automático em Render, Railway, Fly.io, AWS, Azure ou outro provedor, configure os secrets da plataforma no GitHub e adicione um job de deploy após o job `publish-api-image`.
 
+## Deploy do frontend na Vercel
+
+Este repositório é um monorepo. Na Vercel, publique apenas a pasta `frontend`.
+
+Configurações do projeto na Vercel:
+
+```txt
+Framework Preset: Vite
+Root Directory: frontend
+Build Command: npm run build
+Output Directory: dist
+Install Command: npm install
+```
+
+Configure a variável de ambiente do frontend apontando para a API no Railway:
+
+```env
+VITE_API_URL=https://SEU-BACKEND-RAILWAY.up.railway.app
+```
+
+Depois faça um novo deploy. O frontend chamará endpoints como:
+
+```txt
+https://SEU-BACKEND-RAILWAY.up.railway.app/dashboard
+https://SEU-BACKEND-RAILWAY.up.railway.app/producers
+```
+
+Não publique o backend NestJS na Vercel para este projeto. Ele usa Prisma, migrations e container Docker; mantenha o backend no Railway.
+
 ### Variáveis obrigatórias no deploy
 
 Ao iniciar a imagem Docker publicada, a plataforma precisa ter a variável abaixo configurada:
